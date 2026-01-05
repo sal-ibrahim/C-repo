@@ -27,11 +27,39 @@ void *calloc(size_t num, size_t nsize){
 }
 
 void *realloc(void *block, size_t size){
-    
+
 }
 
 
 void *malloc(size_t size){
+    /**
+ * void *malloc(size_t size) -> void *
+ *
+ * Allocates a block of memory of at least `size` bytes from the heap.
+ *
+ * This function is a custom implementation of the standard `malloc`. 
+ * It first tries to find a free memory block of sufficient size from a 
+ * linked list of previously allocated blocks. If a suitable free block 
+ * is found, it is marked as in use and returned. Otherwise, it requests 
+ * a new block of memory from the system using `sbrk`, creates a header 
+ * to track the allocation, and adds it to the linked list of allocations.
+ *
+ * The returned pointer points to the memory region **immediately after 
+ * the header**, so it can be safely used for storing user data.
+ *
+ * Thread safety: This implementation uses a global mutex (`global_malloc_lock`) 
+ * to protect allocation operations in multithreaded programs.
+ *
+ * Preconditions:
+ * - `size` must be greater than 0. If `size` is 0, the function returns NULL.
+ * - The caller must eventually free the memory using a compatible `free` 
+ *   implementation to avoid memory leaks.
+ *
+ * Returns:
+ * - A pointer to a memory block of at least `size` bytes, or NULL if the 
+ *   allocation fails (e.g., insufficient heap memory).
+ */
+
     size_t total_size;
     void *block;
     header_t *header;
