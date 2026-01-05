@@ -18,6 +18,17 @@ typedef union header header_t;
 header_t *head = NULL, *tail = NULL;
 pthread_mutex_t global_malloc_lock;
 
+void free(void *block){
+
+}
+
+void *calloc(size_t num, size_t nsize){
+
+}
+
+void *realloc(void *block, size_t size){
+    
+}
 
 
 void *malloc(size_t size){
