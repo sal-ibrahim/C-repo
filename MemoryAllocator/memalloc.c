@@ -51,11 +51,36 @@ void free(void *block){
 }
 
 void *calloc(size_t num, size_t nsize){
-
+	size_t size;
+	void *block;
+	if (!num || !nsize)
+		return NULL;
+	size = num * nsize;
+	/* check mul overflow */
+	if (nsize != size / num)
+		return NULL;
+	block = malloc(size);
+	if (!block)
+		return NULL;
+	memset(block, 0, size);
+	return block;
 }
 
 void *realloc(void *block, size_t size){
-
+	header_t *header;
+	void *ret;
+	if (!block || !size)
+		return malloc(size);
+	header = (header_t*)block - 1;
+	if (header->s.size >= size)
+		return block;
+	ret = malloc(size);
+	if (ret) {
+		
+		memcpy(ret, block, header->s.size);
+		free(block);
+	}
+	return ret;
 }
 
 
